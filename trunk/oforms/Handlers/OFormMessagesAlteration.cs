@@ -41,7 +41,7 @@ namespace oforms.Handlers
 
                     context.MailMessage.Subject = form.EmailSubject ?? "no subject";
                     var template = form.EmailTemplate ?? "no template";
-                    foreach (var key in context.Properties.Keys.Where(x => !x.StartsWith("oforms.")))  
+                    foreach (var key in context.Properties.Keys)  
                     {
                         template = template.Replace("{" + key + "}", context.Properties[key]);
                     }
