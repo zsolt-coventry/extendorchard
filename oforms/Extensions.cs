@@ -9,6 +9,7 @@ namespace oforms
         public const string IpKey = "oforms.ip";
         public const string NameKey = "oforms.name";
         public const string CaptchaKey = "oforms.captcha";
+        public const string CreatedByKey = "oforms.createdBy";
     }
 
 

@@ -76,6 +76,7 @@ namespace oforms.Controllers
             var submitData = new Dictionary<string, string>();
             Request.QueryString.CopyTo(submitData);
             Request.Form.CopyTo(submitData);
+            submitData.Add(OFormGlobals.CreatedByKey, this.User.Identity.Name);
             submitData.Add(OFormGlobals.CreatedDateKey, DateTime.UtcNow.ToString("dd MMMM yyyy"));
             submitData.Add(OFormGlobals.IpKey, Request.UserHostAddress);
             _formService.SubmitForm(form, submitData, Request.Files, Request.UserHostAddress);
