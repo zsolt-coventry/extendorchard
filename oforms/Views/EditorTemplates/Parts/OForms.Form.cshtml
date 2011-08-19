@@ -94,9 +94,9 @@
             <span>@T("Recipients email addresses")</span>
             <br /><br />
             
-            <label class="sub" for="EmailTemplate">@T("Email Body")</label>
+            <label class="sub" for="EmailTemplate">@T("Email Body (Use global variables to display system values: {oforms.createdBy}, {oforms.createdDate}, {oforms.ip})")</label>
             <span class="helps"></span>
-            <span>@T("Email body. Use {field name} to be replaced by field value. For example First Name: {first_name}")</span>            
+            <span>@T("Email body. Use {field name} to be replaced by field value. For example First Name: {first_name}. Use global variables to display system values: {oforms.createdBy}, {oforms.createdDate}, {oforms.ip}")</span>            
             <br />
 			@Html.TextAreaFor(m => m.EmailTemplate, new { @class = "text" })
         </div>
