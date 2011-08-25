@@ -30,6 +30,11 @@
 			@Html.TextBoxFor(m => m.RedirectUrl, new { @class = "text" }) 
             <span class="helps"></span>
             <span>@T("Enter URL or Permalink where you want the form to redirect users after form submission")</span>
+			<br/><br/>
+			<label class="sub" for="SuccessMessage">@T("Success message")</label><br />
+			@Html.TextBoxFor(m => m.SuccessMessage, new { @class = "text" }) 
+            <span class="helps"></span>
+            <span>@T("Enter message that will be shown to users after form submission")</span>
 		</div>
 	</div>
 
