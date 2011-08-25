@@ -1,6 +1,7 @@
 using System;
 using Orchard.Data.Conventions;
 using System.Collections.Generic;
+using Orchard.Security;
 
 namespace oforms.Models
 {
@@ -17,6 +18,8 @@ namespace oforms.Models
 
         [StringLengthMax]
         public virtual string Xml { get; set; }
+
+        public virtual string CreatedBy { get; set; }
 
         public virtual DateTime CreatedDate { get; set; }
 

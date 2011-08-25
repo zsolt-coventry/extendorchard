@@ -119,5 +119,24 @@ namespace oforms {
 
             return 7;
         }
+
+        public int UpdateFrom7()
+        {
+            SchemaBuilder.AlterTable("OFormResultRecord",
+                table =>
+                {
+                    table.AddColumn<string>("CreatedBy");
+                }
+            );
+
+            SchemaBuilder.AlterTable("OFormPartRecord",
+                table =>
+                {
+                    table.AddColumn<string>("SuccessMessage", x => x.WithType(DbType.String).WithLength(500));
+                }
+            );
+
+            return 8;
+        }
     }
 }

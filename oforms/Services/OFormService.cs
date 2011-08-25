@@ -79,7 +79,8 @@ namespace oforms.Services
             {
                 Xml = xdoc.ToString(),
                 CreatedDate = DateTime.UtcNow,
-                Ip = ipSubmiter
+                Ip = ipSubmiter,
+                CreatedBy = postData[OFormGlobals.CreatedByKey]
             };
 
             if (form.CanUploadFiles && files.Count > 0)

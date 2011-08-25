@@ -10,6 +10,7 @@ namespace oforms
         public const string NameKey = "oforms.name";
         public const string CaptchaKey = "oforms.captcha";
         public const string CreatedByKey = "oforms.createdBy";
+        public static string UserAgentKey = "oforms.userAgent";
     }
 
 

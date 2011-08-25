@@ -37,6 +37,12 @@ namespace oforms.Models
             set { Record.RedirectUrl = value; }
         }
 
+        public string SuccessMessage
+        {
+            get { return Record.SuccessMessage; }
+            set { Record.SuccessMessage = value; }
+        }
+
         public string InnerHtml
         {
             get { return Record.InnerHtml; }

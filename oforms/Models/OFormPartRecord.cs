@@ -20,6 +20,8 @@ namespace oforms.Models
 
         public virtual string Action { get; set; }
 
+        public virtual string SuccessMessage { get; set; }
+
         public virtual string RedirectUrl { get; set; }
 
         public virtual bool CanUploadFiles { get; set; }

@@ -79,11 +79,15 @@ namespace oforms.Controllers
             submitData.Add(OFormGlobals.CreatedByKey, this.User.Identity.Name);
             submitData.Add(OFormGlobals.CreatedDateKey, DateTime.UtcNow.ToString("dd MMMM yyyy"));
             submitData.Add(OFormGlobals.IpKey, Request.UserHostAddress);
+            submitData.Add(OFormGlobals.UserAgentKey, Request.UserAgent);
             _formService.SubmitForm(form, submitData, Request.Files, Request.UserHostAddress);
 
-            if (string.IsNullOrEmpty(form.RedirectUrl)) {
-                _services.Notifier.Information(T("Form submitted successfully"));
+            if (!string.IsNullOrEmpty(form.SuccessMessage))
+            {
+                _services.Notifier.Information(T(form.SuccessMessage));
+            }
 
+            if (string.IsNullOrEmpty(form.RedirectUrl)) {
                 return form.IsPublished ? RedirectToAction("Index", new { name })
                     : RedirectToAction("Preview", new { form.Id });
             }
