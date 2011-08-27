@@ -48,6 +48,7 @@ namespace oforms.Controllers
 
 <input type=""submit"" value=""Send"" /><br/>";
 					formPart.SaveResultsToDB = true;
+			        formPart.SuccessMessage = "Thank you for submitting the form";
 					formPart.CanUploadFiles = false;
 					formPart.SendEmail = false;
 					formPart.ValRequiredFields = "Name, Email, Message, Topic";
