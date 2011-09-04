@@ -132,7 +132,8 @@ namespace oforms {
             SchemaBuilder.AlterTable("OFormPartRecord",
                 table =>
                 {
-                    table.AddColumn<string>("SuccessMessage", x => x.WithType(DbType.String).WithLength(500));
+                    table.AddColumn<string>("SuccessMessage", x => x.WithType(DbType.String).WithLength(500)
+                        .WithDefault("Form submitted successfully"));
                 }
             );
 
