@@ -66,8 +66,7 @@ namespace oforms.Controllers
             if (!form.IsPublished && !_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to submit form")))
                 return HttpNotFound();
 
-            if (form.InnerHtml.Contains("{captcha}") 
-                && (string)Session[OFormGlobals.CaptchaKey] != Request.Params[OFormGlobals.CaptchaKey])
+            if (form.InnerHtml.Contains("{captcha}") && !IsCaptchaValid())
             {
                 _services.Notifier.Error(T("Incorrect captcha. Please try again."));
                 return Index(name);
@@ -117,6 +116,11 @@ namespace oforms.Controllers
             ms.Seek(0, SeekOrigin.Begin);
 
             return new FileStreamResult(ms, "image/bmp");
+        }
+
+        public JsonResult ValidateCaptcha()
+        {
+            return Json(IsCaptchaValid(), JsonRequestBehavior.AllowGet);
         }
 
         private Bitmap GenerateImage(int width, int height)
@@ -231,6 +235,16 @@ namespace oforms.Controllers
             }
 
             return ret;
+        }
+
+        private bool IsCaptchaValid()
+        {
+            if (Session[OFormGlobals.CaptchaKey] == null) 
+            { 
+                return false; 
+            }
+
+            return (string)Session[OFormGlobals.CaptchaKey] == Request.Params[OFormGlobals.CaptchaKey];
         }
     }
 }
