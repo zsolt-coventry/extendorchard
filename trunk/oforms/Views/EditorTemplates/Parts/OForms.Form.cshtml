@@ -23,7 +23,7 @@
 		    <label class="sub" for="InnerHtml">@T("Inner html (do not include opened and closed FORM tag). To use captcha include {captcha}")</label>
             <span class="helps"></span>
             <span>@T("Enter any HTML code including input fields. Do not include opened and closed FORM tag")</span>
-			@Html.TextAreaFor(m => m.InnerHtml) 
+			@Html.TextAreaFor(m => m.InnerHtml, new { rows = 15 }) 
             <br/><br/>
 
 			<label class="sub" for="RedirectUrl">@T("Redirect url")</label><br />
