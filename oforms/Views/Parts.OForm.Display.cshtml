@@ -1,6 +1,7 @@
 @using oforms.Models
 @using Orchard.ContentManagement
 @using oforms.HtmlHelpers
+
 @{
     ContentItem contentItem = Model.ContentItem;
     var form = (OFormPart)contentItem.Get(typeof(OFormPart));
@@ -39,9 +40,6 @@
 }
 
 
-
-	
-
 @using (Script.Head())
 {
 	<link href="@Url.Content("~/Modules/oforms/Styles/cmxform.css")" rel="stylesheet" type="text/css" />
@@ -50,8 +48,12 @@
 @using (Script.Foot())
 {
     Script.Require("jQuery");
-    
-    <script src="@Url.Content("~/Modules/oforms/Scripts/jquery.validate.min.js")"></script>
+   
+        <script src="@Url.Content("~/Modules/oforms/Scripts/jquery.validate.min.js")"></script>
+    if (ViewBag.culture != "en")
+    { 
+        <script src="@Url.Content("~/Modules/oforms/Scripts/validateLocalization/messages_"+ViewBag.culture+".js")"></script>
+    }
     <script type="text/javascript">
     //<![CDATA[
 	isCaptchaValid = false;

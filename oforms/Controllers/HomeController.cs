@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Orchard;
 using Orchard.Localization;
+using Orchard.Localization.Services;
 using Orchard.Security;
 using Orchard.Themes;
 using Orchard.Mvc;
@@ -23,18 +24,21 @@ namespace oforms.Controllers
         private readonly IOrchardServices _services;
         private readonly ISerialService _serial;
         private readonly IContentManager _contentManager;
+        private readonly ICultureManager _cultureManager; 
 
         private readonly IOFormService _formService;
 
         public HomeController(IOFormService formService, 
                               IOrchardServices services,
                               ISerialService serial,
-                              IContentManager contentManager)
+                              IContentManager contentManager,
+                              ICultureManager cultureManager)
         {
             this._formService = formService;
             _services = services;
             _serial = serial;
             _contentManager = contentManager;
+            _cultureManager = cultureManager;
             T = NullLocalizer.Instance;
         }
 
@@ -50,6 +54,7 @@ namespace oforms.Controllers
                     return HttpNotFound();
                 dynamic model = _services.ContentManager.BuildDisplay(form);
                 ViewBag.validSn = _serial.ValidateSerial();
+                ViewBag.culture = GetCultureLanguage();
                 return new ShapeResult(this, model);
         }
 
@@ -94,6 +99,11 @@ namespace oforms.Controllers
             return Redirect(form.RedirectUrl);
         }
 
+        private string GetCultureLanguage() {
+            string[] words = _cultureManager.GetSiteCulture().Split('-');
+            return words[0];
+        }
+
         public ActionResult Preview(int id)
         {
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to edit form")))
@@ -104,6 +114,7 @@ namespace oforms.Controllers
                 return HttpNotFound();
             dynamic model = _services.ContentManager.BuildDisplay(form);
             ViewBag.validSn = _serial.ValidateSerial();
+            ViewBag.culture = GetCultureLanguage();
             return new ShapeResult(this, model);
         }
 

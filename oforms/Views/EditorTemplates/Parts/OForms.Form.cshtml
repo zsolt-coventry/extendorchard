@@ -23,7 +23,7 @@
 		    <label class="sub" for="InnerHtml">@T("Inner html (do not include opened and closed FORM tag). To use captcha include {captcha}")</label>
             <span class="helps"></span>
             <span>@T("Enter any HTML code including input fields. Do not include opened and closed FORM tag")</span>
-			@Html.TextAreaFor(m => m.InnerHtml, new { rows = 15 }) 
+			@Html.TextAreaFor(m => m.InnerHtml, new { rows = 25 }) 
             <br/><br/>
 
 			<label class="sub" for="RedirectUrl">@T("Redirect url")</label><br />
@@ -50,7 +50,7 @@
                 <label class="sub" for="SaveResultsToDB">@T("Save results to DB")</label>
                 <span class="helps"></span>
                 <span>@T("Save form submissions in the Data Base")</span><br/>
-			    @Html.CheckBoxFor(m => m.SaveResultsToDB, new { @class = "text" }) 
+			    @Html.CheckBoxFor(m => m.SaveResultsToDB) 
 
 		</div>
 	</div>
@@ -62,7 +62,7 @@
                     <span class="helps"></span>
                     <span>@T("Allow users to upload files")</span>
                     <br />
-					@Html.CheckBoxFor(m => m.CanUploadFiles, new { @class = "text" })
+					@Html.CheckBoxFor(m => m.CanUploadFiles)
                     <br /><br />
 
 					<label class="sub" for="UploadFileSizeLimit">@T("Upload file size limit (in kilo bytes). Please note on Microsoft SQL Server Compact the limit in 8kb only.")</label><br />
@@ -84,7 +84,7 @@
             <label class="sub" for="SendEmail">@T("Email Results (In order to use this please install 'Email Messaging' module from Orchard gallery)")</label>
             <span class="helps"></span>
             <span>@T("Send form submissions by email")</span><br />
-			@Html.CheckBoxFor(m => m.SendEmail, new { @class = "text" }) 
+			@Html.CheckBoxFor(m => m.SendEmail) 
             <br /><br />
 
             <label class="sub" for="EmailSubject">@T("Subject")</label><br />
@@ -103,7 +103,7 @@
             <span class="helps"></span>
             <span>@T("Email body. Use {field name} to be replaced by field value. For example First Name: {first_name}. Use global variables to display system values: {oforms.createdBy}, {oforms.createdDate}, {oforms.ip}")</span>            
             <br />
-			@Html.TextAreaFor(m => m.EmailTemplate, new { @class = "text" })
+			@Html.TextAreaFor(m => m.EmailTemplate, new { rows = 25 })
         </div>
 	</div>
 
