@@ -17,3 +17,8 @@ div.box div.content
 {
 	padding:10px 0px 20px 10px;
 }
+
+input.text
+{
+    width: 350px;
+    }
