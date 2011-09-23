@@ -143,11 +143,11 @@
 	</div>
 </div>
 
-@using (Script.Head())
-{
-	<link href="@Url.Content("~/Modules/oforms/Styles/oform.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Modules/oforms/Styles/jquery.helptooltip.css")" rel="stylesheet" type="text/css" />
+@{
+    Style.Require("AdminOform");
+    Style.Require("AdminHelptooltip"); 
 }
+
 
 @using (Script.Foot())
 {

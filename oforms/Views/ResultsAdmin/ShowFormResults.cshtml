@@ -1,9 +1,8 @@
 @model oforms.ViewModels.FormResultViewModel
  
-@using (Script.Head())
-{
-	<link href="@Url.Content("~/Modules/oforms/Styles/oform.css")" rel="stylesheet" type="text/css" />
-}          
+@{
+    Style.Require("AdminOform"); 
+}         
 
 <div id="oforms_mainGrid">
 @Html.Partial("sn")
