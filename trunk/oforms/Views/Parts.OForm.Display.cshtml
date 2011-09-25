@@ -43,22 +43,19 @@
 @{
     Style.Require("ValidatorCss");
     Script.Require("jQuery").AtHead();
-    Script.Require("Validator");
-    Script.Require("ValidatorAdditional");    
-   
+    Script.Require("ValidatorAdditional");
 }
 
 @using (Script.Foot())
 {
    
-    if (ViewBag.culture != "en")
-    { 
-        <script src="@Url.Content("~/Modules/oforms/Scripts/validateLocalization/messages_" + ViewBag.culture + ".js")"></script>
+    if (!string.IsNullOrEmpty(ViewBag.culture) && ViewBag.culture != "en")
+    {
+        Script.Include("validateLocalization/messages_" + ViewBag.culture + ".js");
     }        
     
     <script type="text/javascript">
     //<![CDATA[
-	isCaptchaValid = false;
 	(function($) {
         $(document).ready(function() {
             $.ajaxSetup({ async: false });
