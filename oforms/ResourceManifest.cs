@@ -8,22 +8,13 @@ namespace oforms
         {
             var manifest = builder.Add();
 
-
             manifest.DefineStyle("AdminOform").SetUrl("oform.css");
             manifest.DefineStyle("AdminHelptooltip").SetUrl("jquery.helptooltip.css");
             
             manifest.DefineStyle("ValidatorCss").SetUrl("cmxform.css");
 
-            manifest.DefineScript("Validator").SetUrl("jquery.validate.min.js");
-            manifest.DefineScript("ValidatorAdditional").SetUrl("additional-methods.min.js");
-
-            
-
-            //var names = new string[1] { "pl-PL"};
-
-            //manifest.DefineScript("ValidatorLocalisation").SetUrl("validateLocalization/messages_pl.js").SetCultures(names).;
-
-
+            manifest.DefineScript("Validator").SetUrl("jquery.validate.min.js").SetDependencies("jQuery");
+            manifest.DefineScript("ValidatorAdditional").SetUrl("additional-methods.min.js").SetDependencies("Validator");
         }
     }
 }

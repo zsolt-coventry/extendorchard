@@ -67,7 +67,7 @@ namespace oforms.Controllers
             var form = _formService.GetFormPartByName(name, VersionOptions.Latest);
             if (form == null)
                 return HttpNotFound();
-
+            
             if (!form.IsPublished && !_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to submit form")))
                 return HttpNotFound();
 
@@ -100,8 +100,7 @@ namespace oforms.Controllers
         }
 
         private string GetCultureLanguage() {
-            string[] words = _cultureManager.GetSiteCulture().Split('-');
-            return words[0];
+            return _cultureManager.GetSiteCulture().Split('-').FirstOrDefault();
         }
 
         public ActionResult Preview(int id)
