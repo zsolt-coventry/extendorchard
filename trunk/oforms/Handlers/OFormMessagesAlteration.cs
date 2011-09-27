@@ -33,7 +33,7 @@ namespace oforms.Handlers
             switch (context.Type)
             { 
                 case MessageTypes.SendFormResult:
-                    foreach (var email in form.EmailSendTo.Split(';', ' ', ','))
+                    foreach (var email in form.EmailSendTo.Split(new []{';', ' ', ','}, StringSplitOptions.RemoveEmptyEntries))
                     { 
                         var mailAddress = new MailAddress(email);
                         context.MailMessage.To.Add(mailAddress); 
