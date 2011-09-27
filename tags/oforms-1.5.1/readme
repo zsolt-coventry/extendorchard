@@ -1,0 +1,5 @@
+1. Download latest sources from http://orchardproject.net and extract them to some folder
+2. Run CreateSymbolicLinks.cmd with the correct path to Orchard.Web folder, ex. CreateSymbolicLinks.cmd d:\orchard\src\Orchard.Web
+3. Open Orchard solution and add oforms module from <path-to-orchard-web>\Modules\oforms
+4. Build, Run
+
