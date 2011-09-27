@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Orchard;
 using Orchard.Localization;
-using Orchard.Localization.Services;
 using Orchard.Security;
 using Orchard.Themes;
 using Orchard.Mvc;
@@ -24,21 +23,18 @@ namespace oforms.Controllers
         private readonly IOrchardServices _services;
         private readonly ISerialService _serial;
         private readonly IContentManager _contentManager;
-        private readonly ICultureManager _cultureManager; 
 
         private readonly IOFormService _formService;
 
         public HomeController(IOFormService formService, 
                               IOrchardServices services,
                               ISerialService serial,
-                              IContentManager contentManager,
-                              ICultureManager cultureManager)
+                              IContentManager contentManager)
         {
             this._formService = formService;
             _services = services;
             _serial = serial;
             _contentManager = contentManager;
-            _cultureManager = cultureManager;
             T = NullLocalizer.Instance;
         }
 
@@ -54,7 +50,6 @@ namespace oforms.Controllers
                     return HttpNotFound();
                 dynamic model = _services.ContentManager.BuildDisplay(form);
                 ViewBag.validSn = _serial.ValidateSerial();
-                ViewBag.culture = GetCultureLanguage();
                 return new ShapeResult(this, model);
         }
 
@@ -67,11 +62,12 @@ namespace oforms.Controllers
             var form = _formService.GetFormPartByName(name, VersionOptions.Latest);
             if (form == null)
                 return HttpNotFound();
-            
+
             if (!form.IsPublished && !_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to submit form")))
                 return HttpNotFound();
 
-            if (form.InnerHtml.Contains("{captcha}") && !IsCaptchaValid())
+            if (form.InnerHtml.Contains("{captcha}") 
+                && (string)Session[OFormGlobals.CaptchaKey] != Request.Params[OFormGlobals.CaptchaKey])
             {
                 _services.Notifier.Error(T("Incorrect captcha. Please try again."));
                 return Index(name);
@@ -99,10 +95,6 @@ namespace oforms.Controllers
             return Redirect(form.RedirectUrl);
         }
 
-        private string GetCultureLanguage() {
-            return _cultureManager.GetSiteCulture().Split('-').FirstOrDefault();
-        }
-
         public ActionResult Preview(int id)
         {
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to edit form")))
@@ -113,7 +105,6 @@ namespace oforms.Controllers
                 return HttpNotFound();
             dynamic model = _services.ContentManager.BuildDisplay(form);
             ViewBag.validSn = _serial.ValidateSerial();
-            ViewBag.culture = GetCultureLanguage();
             return new ShapeResult(this, model);
         }
 
@@ -126,11 +117,6 @@ namespace oforms.Controllers
             ms.Seek(0, SeekOrigin.Begin);
 
             return new FileStreamResult(ms, "image/bmp");
-        }
-
-        public JsonResult ValidateCaptcha()
-        {
-            return Json(IsCaptchaValid(), JsonRequestBehavior.AllowGet);
         }
 
         private Bitmap GenerateImage(int width, int height)
@@ -245,16 +231,6 @@ namespace oforms.Controllers
             }
 
             return ret;
-        }
-
-        private bool IsCaptchaValid()
-        {
-            if (Session[OFormGlobals.CaptchaKey] == null) 
-            { 
-                return false; 
-            }
-
-            return (string)Session[OFormGlobals.CaptchaKey] == Request.Params[OFormGlobals.CaptchaKey];
         }
     }
 }

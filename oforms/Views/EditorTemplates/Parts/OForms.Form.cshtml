@@ -23,7 +23,7 @@
 		    <label class="sub" for="InnerHtml">@T("Inner html (do not include opened and closed FORM tag). To use captcha include {captcha}")</label>
             <span class="helps"></span>
             <span>@T("Enter any HTML code including input fields. Do not include opened and closed FORM tag")</span>
-			@Html.TextAreaFor(m => m.InnerHtml, new { rows = 25 }) 
+			@Html.TextAreaFor(m => m.InnerHtml) 
             <br/><br/>
 
 			<label class="sub" for="RedirectUrl">@T("Redirect url")</label><br />
@@ -50,7 +50,7 @@
                 <label class="sub" for="SaveResultsToDB">@T("Save results to DB")</label>
                 <span class="helps"></span>
                 <span>@T("Save form submissions in the Data Base")</span><br/>
-			    @Html.CheckBoxFor(m => m.SaveResultsToDB) 
+			    @Html.CheckBoxFor(m => m.SaveResultsToDB, new { @class = "text" }) 
 
 		</div>
 	</div>
@@ -62,7 +62,7 @@
                     <span class="helps"></span>
                     <span>@T("Allow users to upload files")</span>
                     <br />
-					@Html.CheckBoxFor(m => m.CanUploadFiles)
+					@Html.CheckBoxFor(m => m.CanUploadFiles, new { @class = "text" })
                     <br /><br />
 
 					<label class="sub" for="UploadFileSizeLimit">@T("Upload file size limit (in kilo bytes). Please note on Microsoft SQL Server Compact the limit in 8kb only.")</label><br />
@@ -84,7 +84,7 @@
             <label class="sub" for="SendEmail">@T("Email Results (In order to use this please install 'Email Messaging' module from Orchard gallery)")</label>
             <span class="helps"></span>
             <span>@T("Send form submissions by email")</span><br />
-			@Html.CheckBoxFor(m => m.SendEmail) 
+			@Html.CheckBoxFor(m => m.SendEmail, new { @class = "text" }) 
             <br /><br />
 
             <label class="sub" for="EmailSubject">@T("Subject")</label><br />
@@ -103,7 +103,7 @@
             <span class="helps"></span>
             <span>@T("Email body. Use {field name} to be replaced by field value. For example First Name: {first_name}. Use global variables to display system values: {oforms.createdBy}, {oforms.createdDate}, {oforms.ip}")</span>            
             <br />
-			@Html.TextAreaFor(m => m.EmailTemplate, new { rows = 25 })
+			@Html.TextAreaFor(m => m.EmailTemplate, new { @class = "text" })
         </div>
 	</div>
 
@@ -143,36 +143,32 @@
 	</div>
 </div>
 
-@{
-    Style.Require("AdminOform");
-    Style.Require("AdminHelptooltip"); 
+@using (Script.Head())
+{
+	<link href="@Url.Content("~/Modules/oforms/Styles/oform.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Modules/oforms/Styles/jquery.helptooltip.css")" rel="stylesheet" type="text/css" />
 }
-
 
 @using (Script.Foot())
 {
     <script type="text/javascript">
     //<![CDATA[
-	(function($) {
-        $(document).ready(function () {
+        jQuery(document).ready(function () {
 	        $(".helps").helptooltip();
 	    });
-    
-	    $.fn.helptooltip = function () {
+    //]]>
+
+	    jQuery.fn.helptooltip = function () {
 	        $("body").append('<div id="bubble_tooltip" style="display: none; left: 379px; top: 62px;"><div class="bubble_top"></div><div class="bubble_middle"><span id="bubble_tooltip_content">&nbsp;</span></div><div class="bubble_bottom"></div></div>');
 	        $(this).each(function () {
 	            var ht = $(this).next('span').html();
 	            $(this).next('span').html('&nbsp;&nbsp;&nbsp;<img onmouseout="$(\'#bubble_tooltip\').hide();" onmouseover="showme(\'' + ht + '\', this);" src="@Url.Content("~/Modules/oforms/Styles/images/b_tipp.gif")" alt="" />').show();
 	        });
 	    }
-	})(jQuery);
-	
-	function showme(txt, me) {
-		jQuery("#bubble_tooltip_content").html(txt);
-		jQuery("#bubble_tooltip").css({ display: 'block', top: jQuery(me).offset().top - jQuery("#bubble_tooltip").height() + 5, left: jQuery(me).offset().left - (jQuery("#bubble_tooltip").width() - 50) });
-	}
-
-	//]]>
+	    function showme(txt, me) {
+	        $("#bubble_tooltip_content").html(txt);
+	        $("#bubble_tooltip").css({ display: 'block', top: $(me).offset().top - $("#bubble_tooltip").height() + 5, left: $(me).offset().left - ($("#bubble_tooltip").width() - 50) });
+	    }
     </script>
     
 }
