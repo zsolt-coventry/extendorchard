@@ -1,4 +1,4 @@
-Name: oforms
+Name: Build any form with oForms
 AntiForgery: enabled
 Author: The Extend Orchard Team
 Website: http://extendorchard.co.uk

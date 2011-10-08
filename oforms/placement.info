@@ -1,4 +1,5 @@
 ﻿<Placement>
     <Place Parts_OForm_Display="Content:3"/>
     <Place Parts_OForm_Edit="Content:3"/>
+    <Place Content_SaveButton="Content:3;Alternate=OForm_SaveButton" />
 </Placement>
