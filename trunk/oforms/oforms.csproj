@@ -166,7 +166,7 @@
     <Content Include="Views\Admin\License.cshtml" />
     <Content Include="Views\ResultsAdmin\ShowFormResults.cshtml" />
     <Content Include="Views\ResultsAdmin\ShowResultDetails.cshtml" />
-    <Content Include="Views\Content.SaveButton.cshtml" />
+    <Content Include="Views\OForm.SaveButton.cshtml" />
     <Content Include="Views\ConfirmScript.cshtml" />
     <None Include="Views\sn.cshtml" />
   </ItemGroup>
