@@ -160,13 +160,15 @@
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Placement.info" />
+    <None Include="Placement.info">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Parts.OForm.Display.cshtml" />
     <Content Include="Views\Admin\License.cshtml" />
     <Content Include="Views\ResultsAdmin\ShowFormResults.cshtml" />
     <Content Include="Views\ResultsAdmin\ShowResultDetails.cshtml" />
-    <Content Include="Views\OForm.SaveButton.cshtml" />
+    <Content Include="Views\Content.SaveButton-OForm.cshtml" />
     <Content Include="Views\ConfirmScript.cshtml" />
     <None Include="Views\sn.cshtml" />
   </ItemGroup>
