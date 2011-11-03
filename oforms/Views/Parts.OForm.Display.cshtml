@@ -5,6 +5,7 @@
 @{
     ContentItem contentItem = Model.ContentItem;
     var form = (OFormPart)contentItem.Get(typeof(OFormPart));
+    WorkContext.Layout.Title = form.Name;
 }
  
 @helper Captcha(){
