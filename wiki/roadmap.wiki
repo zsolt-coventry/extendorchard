@@ -1,4 +1,4 @@
 #summary OForms roadmap
 
-*  make oforms as a content part, this will allow inclusion of forms in any other content type
-*  integrate oforms with route content part
+  * make oforms as a content part, this will allow inclusion of forms in any other content type
+  * integrate oforms with route content part
