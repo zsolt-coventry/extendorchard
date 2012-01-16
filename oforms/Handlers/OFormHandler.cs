@@ -1,6 +1,9 @@
-﻿using Orchard.ContentManagement.Handlers;
+﻿using System.Linq;
+using Orchard.ContentManagement.Handlers;
 using oforms.Models;
 using Orchard.Data;
+using oforms.Services;
+using Orchard.Localization.Services;
 
 namespace oforms.Handlers
 {
@@ -8,7 +11,6 @@ namespace oforms.Handlers
     {
         public OFormHandler(IRepository<OFormPartRecord> repo)
         {
-            Filters.Add(new ActivatingFilter<OFormPart>("OForm"));
             Filters.Add(StorageFilter.For(repo));
         }
     }

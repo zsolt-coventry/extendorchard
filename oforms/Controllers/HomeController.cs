@@ -24,21 +24,18 @@ namespace oforms.Controllers
         private readonly IOrchardServices _services;
         private readonly ISerialService _serial;
         private readonly IContentManager _contentManager;
-        private readonly ICultureManager _cultureManager; 
 
         private readonly IOFormService _formService;
 
         public HomeController(IOFormService formService, 
                               IOrchardServices services,
                               ISerialService serial,
-                              IContentManager contentManager,
-                              ICultureManager cultureManager)
+                              IContentManager contentManager)
         {
             this._formService = formService;
             _services = services;
             _serial = serial;
             _contentManager = contentManager;
-            _cultureManager = cultureManager;
             T = NullLocalizer.Instance;
         }
 
@@ -53,8 +50,6 @@ namespace oforms.Controllers
                 if (form == null)
                     return HttpNotFound();
                 dynamic model = _services.ContentManager.BuildDisplay(form);
-                ViewBag.validSn = _serial.ValidateSerial();
-                ViewBag.culture = GetCultureLanguage();
                 return new ShapeResult(this, model);
         }
 
@@ -99,10 +94,6 @@ namespace oforms.Controllers
             return Redirect(form.RedirectUrl);
         }
 
-        private string GetCultureLanguage() {
-            return _cultureManager.GetSiteCulture().Split('-').FirstOrDefault();
-        }
-
         public ActionResult Preview(int id)
         {
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to edit form")))
@@ -112,8 +103,6 @@ namespace oforms.Controllers
             if (form == null)
                 return HttpNotFound();
             dynamic model = _services.ContentManager.BuildDisplay(form);
-            ViewBag.validSn = _serial.ValidateSerial();
-            ViewBag.culture = GetCultureLanguage();
             return new ShapeResult(this, model);
         }
 

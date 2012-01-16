@@ -1,5 +1,8 @@
 using System.Data;
 using Orchard.Data.Migration;
+using Orchard.ContentManagement.MetaData;
+using Orchard.Core.Contents.Extensions;
+using oforms.Models;
 
 namespace oforms {
     public class Migrations : DataMigrationImpl {
@@ -138,6 +141,19 @@ namespace oforms {
             );
 
             return 8;
+        }
+
+        public int UpdateFrom8()
+        {
+            ContentDefinitionManager.AlterPartDefinition(typeof(OFormPart).Name, cfg => cfg.Attachable());
+            ContentDefinitionManager.AlterTypeDefinition("OForm",
+                cfg => cfg
+                    .WithPart(typeof(OFormPart).Name)
+                    .WithPart("RoutePart")
+                    .WithPart("MenuPart")
+                    .WithPart("PublishLaterPart"));
+
+            return 9;
         }
     }
 }

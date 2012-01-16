@@ -10,13 +10,13 @@
  
 @helper Captcha(){
     var random = new Random();
-    @Html.Image(Url.Action("GenerateCaptcha", "Home"), "captcha", new { c = random.Next() });
+    @Html.Image(Url.Action("GenerateCaptcha", "Home", new { area = "oforms" }), "captcha", new { c = random.Next() });
     <br />
     @Html.TextBox(oforms.OFormGlobals.CaptchaKey, null, new { remote = Url.Action("ValidateCaptcha"), @class = "required" });
     }
            
 @using (Html.BeginFormAntiForgeryPost(
-                                        String.IsNullOrEmpty(form.Action) ? Url.Action("SubmitForm", "Home") : form.Action,
+                                        String.IsNullOrEmpty(form.Action) ? Url.Action("SubmitForm", "Home", new { area = "oforms" }) : form.Action,
                                         form.Method == "POST" ? FormMethod.Post : FormMethod.Get,
                                         new { @id = form.Name, enctype = form.CanUploadFiles ? "multipart/form-data" : null }
                                     )
@@ -28,7 +28,7 @@
 
 @{ /* DO NOT REMOVE THE LINES BELOW, IF YOU LIKE THIS MODULE, SUPPORT IT AND GET A LICENSE!!! http://extendorchard.co.uk/license-oforms */}
 @{ /* if you really can't pay you can use class oforms to hide the below div, the the link should stay, it is illegal to remove it */}
-@if (!ViewBag.validSn){@Html.Raw("<div class='oforms'><a href='http://extendorchard.co.uk' target=_blank>Extend Orchard</a></div>")}
+@if (!Model.ValidSn){@Html.Raw("<div class='oforms'><a href='http://extendorchard.co.uk' target=_blank>Extend Orchard</a></div>")}
 
 @{
     String validatorCollectorString = new Validator()
@@ -49,10 +49,9 @@
 
 @using (Script.Foot())
 {
-   
-    if (!string.IsNullOrEmpty(ViewBag.culture) && ViewBag.culture != "en")
+    if (!string.IsNullOrEmpty(Model.Culture) && Model.Culture != "en")
     {
-        Script.Include("validateLocalization/messages_" + ViewBag.culture + ".js");
+        Script.Include("validateLocalization/messages_" + Model.Culture + ".js");
     }        
     
     <script type="text/javascript">
