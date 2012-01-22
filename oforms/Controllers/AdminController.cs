@@ -16,6 +16,7 @@ using oforms.Services;
 using Orchard.Data;
 using System.Text;
 using oforms.ViewModels;
+using Orchard.Core.Contents.Controllers;
 
 namespace oforms.Controllers
 {
@@ -26,8 +27,6 @@ namespace oforms.Controllers
         private readonly ISiteService _siteService;
         private readonly IOFormService _formService;
         private readonly ISerialService _serial;
-        private readonly IContentManager _contentManager;
-        private readonly ITransactionManager _transactionManager;
         private readonly IRepository<OFormResultRecord> _resultsRepo;
         private readonly IRepository<OFormFileRecord> _fileRepo;
 
@@ -36,8 +35,6 @@ namespace oforms.Controllers
             ISiteService siteService,
             IOFormService formService, 
             ISerialService serial,
-            IContentManager contentManager,
-            ITransactionManager transactionManager,
             IRepository<OFormResultRecord> resultsRepo,
             IRepository<OFormFileRecord> fileRepo)
         {
@@ -46,8 +43,6 @@ namespace oforms.Controllers
             this._formService = formService;
             this._serial = serial;
             this.Shape = shapeFactory;
-            this._contentManager = contentManager;
-            this._transactionManager = transactionManager;
             _resultsRepo = resultsRepo;
             this._fileRepo = fileRepo;
             T = NullLocalizer.Instance;
@@ -61,7 +56,7 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to list users")))
                 return new HttpUnauthorizedResult();
             var forms = _services.ContentManager.Query<OFormPart, OFormPartRecord>(VersionOptions.Latest).List();
-            CheckValidSerial();
+            ViewBag.ValidSn = _serial.ValidateSerial();
             return View(forms.ToList());
         }
 
@@ -112,23 +107,35 @@ namespace oforms.Controllers
         }
 
         [HttpPost, ActionName("Create")]
-        public ActionResult CreatePOST(string submitAction)
+        public ActionResult CreatePOST()
         {
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to create forms")))
                 return new HttpUnauthorizedResult();
             
             var form = _services.ContentManager.New<OFormPart>("OForm");
-            _contentManager.Create(form, VersionOptions.Draft);
-            dynamic model = _contentManager.UpdateEditor(form, this);
+            _services.ContentManager.Create(form, VersionOptions.Draft);
+            dynamic model = _services.ContentManager.UpdateEditor(form, this);
 
             if (!ModelState.IsValid)
             {
-                _transactionManager.Cancel();
+                _services.TransactionManager.Cancel();
                 // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation.
                 return View((object)model);
             }
 
-            return TryPublishAndRedirect(submitAction, form, T("Form {0} created successfully", form.Name));
+            _services.Notifier.Information(T("Form {0} created successfully", form.Name));
+
+            if (!String.IsNullOrEmpty(Request.Form["submit.Publish"]))
+            {
+                _services.ContentManager.Publish(form.ContentItem);
+            }
+
+            if (!String.IsNullOrEmpty(Request.Form["submit.Apply"]))
+            {
+                return RedirectToAction("Edit", new { form.Id });
+            }
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int id)
@@ -136,26 +143,23 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to edit form")))
                 return new HttpUnauthorizedResult();
 
-            var form = _contentManager.Get<OFormPart>(id, VersionOptions.Latest);
+            var form = _services.ContentManager.Get<OFormPart>(id, VersionOptions.Latest);
             if (form == null)
                 return HttpNotFound();
 
             dynamic model = _services.ContentManager.BuildEditor(form);
-            ViewBag.IsPublished = form.ContentItem.IsPublished();
+            ViewBag.IsPublished = form.IsPublished;
             // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation.
             return View((object)model);
         }
 
         [HttpPost, ActionName("Edit")]
-        public ActionResult EditPOST(int id, string submitAction)
+        public ActionResult EditPOST(int id)
         {
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Couldn't edit form")))
                 return new HttpUnauthorizedResult();
 
-            var form = _contentManager.Get<OFormPart>(id, VersionOptions.Latest);
-            if (form == null)
-                return HttpNotFound();
-
+            var form = _services.ContentManager.Get<OFormPart>(id, VersionOptions.Latest);
             dynamic model = _services.ContentManager.UpdateEditor(form, this);
             if (!ModelState.IsValid)
             {
@@ -164,7 +168,17 @@ namespace oforms.Controllers
                 return View((object)model);
             }
 
-            return TryPublishAndRedirect(submitAction, form, T("Form {0} updated successfully", form.Name));
+            _services.Notifier.Information(T("Form {0} updated successfully", form.Name));
+
+            if (!String.IsNullOrEmpty(Request.Form["submit.Publish"])) {
+                _services.ContentManager.Publish(form.ContentItem);
+            }
+
+            if (!String.IsNullOrEmpty(Request.Form["submit.Apply"])) {
+                return RedirectToAction("Edit", new { form.Id });
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -173,11 +187,11 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Couldn't delete form")))
                 return new HttpUnauthorizedResult();
 
-            var form = this._contentManager.Get(id, VersionOptions.Latest);
+            var form = this._services.ContentManager.Get(id, VersionOptions.Latest);
             if (form == null)
                 return HttpNotFound();
-            
-            _contentManager.Remove(form);
+
+            _services.ContentManager.Remove(form);
 
             _services.Notifier.Information(T("Form {0} deleted successfully", form.As<OFormPart>().Name));
 
@@ -190,11 +204,11 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Couldn't delete form")))
                 return new HttpUnauthorizedResult();
 
-            var form = this._contentManager.Get(id, VersionOptions.Latest);
+            var form = this._services.ContentManager.Get(id, VersionOptions.Latest);
             if (form == null)
                 return HttpNotFound();
-            
-            _contentManager.Publish(form);
+
+            _services.ContentManager.Publish(form);
 
             return RedirectToAction("Index");
         }
@@ -205,36 +219,13 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Couldn't delete form")))
                 return new HttpUnauthorizedResult();
 
-            var form = this._contentManager.Get(id, VersionOptions.Latest);
+            var form = this._services.ContentManager.Get(id, VersionOptions.Latest);
             if (form == null)
                 return HttpNotFound();
 
-            _contentManager.Unpublish(form);
+            _services.ContentManager.Unpublish(form);
 
             return RedirectToAction("Index");
-        }
-
-        private ActionResult TryPublishAndRedirect(string submitAction, OFormPart form, LocalizedString notification)
-        {
-            if (submitAction == "submit.Publish")
-            {
-                _contentManager.Publish(form.ContentItem);
-            }
-
-            _contentManager.Flush();
-            _services.Notifier.Information(notification);
-
-            if (submitAction == "submit.Apply")
-            {
-                return RedirectToAction("Edit", new { form.Id });
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        private void CheckValidSerial()
-        {
-            ViewData["validSn"] = _serial.ValidateSerial();
         }
 
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties)

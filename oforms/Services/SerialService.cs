@@ -7,35 +7,30 @@ namespace oforms.Services
 {
     public class SerialService : ISerialService
     {
-        private string fileName;
-        private string pathDestination;
-
         public SerialService() {
-            this.pathDestination = HttpContext.Current.Server.MapPath("~/App_Data/oforms/");
-            this.fileName = Path.Combine(this.pathDestination, "sn.dat");
             Logger = NullLogger.Instance;
         }
 
-        public ILogger Logger {get;set;}
+        public ILogger Logger { get; set; }
 
         public void SaveSerialToFile(string value) {
-            this.CreateMissingDirectory();
-            TextWriter tw = new StreamWriter(this.fileName);
-            tw.WriteLine(value);
-            tw.Close();
-        }
-
-        private void CreateMissingDirectory() {
-            if (!Directory.Exists(this.pathDestination))
+            var serialFilePath = GetSerialFilePath();
+            var oformsDataDir = Path.GetDirectoryName(serialFilePath);
+            if (!Directory.Exists(oformsDataDir))
             {
-                Directory.CreateDirectory(this.pathDestination);
+                Directory.CreateDirectory(oformsDataDir);
+            }
+
+            using (var sw = new StreamWriter(serialFilePath))
+            {
+                sw.WriteLine(value);
             }
         }
-
+        
         public string ReadSerialFromFile() {
             string text;
             try {
-                text = File.ReadAllText(this.fileName);
+                text = File.ReadAllText(GetSerialFilePath());
             }
             catch (Exception ex)
             {
@@ -77,6 +72,12 @@ namespace oforms.Services
             else {
                 return false;
             }
+        }
+
+        private string GetSerialFilePath()
+        {
+            var oformsDataDir = HttpContext.Current.Server.MapPath("~/App_Data/oforms/");
+            return Path.Combine(oformsDataDir, "sn.dat");
         }
     }
 }
