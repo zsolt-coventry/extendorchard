@@ -2,6 +2,7 @@ using System.Data;
 using Orchard.Data.Migration;
 using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Contents.Extensions;
+using Orchard.Indexing;
 using oforms.Models;
 
 namespace oforms {
@@ -150,8 +151,7 @@ namespace oforms {
                 cfg => cfg
                     .WithPart(typeof(OFormPart).Name)
                     .WithPart("RoutePart")
-                    .WithPart("MenuPart")
-                    .WithPart("PublishLaterPart"));
+                    .WithPart("MenuPart"));
 
             return 9;
         }

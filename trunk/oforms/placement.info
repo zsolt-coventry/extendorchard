@@ -2,6 +2,6 @@
   <Place Parts_OForm_Display="Content:1"/>
   <Place Parts_OForm_Edit="Content:1"/>
   <Match ContentType="OForm">
-    <Place Content_SaveButton="Content:after;Alternate=Content_SaveButton__OForm"/>
+    <Place Content_SaveButton="Sidebar:23;Alternate=Content_SaveButton__OForm"/>
   </Match>
 </Placement>
