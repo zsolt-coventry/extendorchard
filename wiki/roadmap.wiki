@@ -1,5 +1,6 @@
 #summary OForms roadmap
 1.7
+  * make oforms available as a widget
   * add server side validation
 
 1.6
