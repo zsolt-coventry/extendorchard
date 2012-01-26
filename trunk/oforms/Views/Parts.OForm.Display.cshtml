@@ -23,7 +23,9 @@
        )
 {
     @Html.Hidden(oforms.OFormGlobals.NameKey, form.Name)
-    @Html.Raw(form.InnerHtml.Replace("{captcha}", Captcha().ToString()))
+    if (!string.IsNullOrEmpty(form.InnerHtml)) { 
+        @Html.Raw(form.InnerHtml.Replace("{captcha}", Captcha().ToString()))
+    }
 }
 
 @{ /* DO NOT REMOVE THE LINES BELOW, IF YOU LIKE THIS MODULE, SUPPORT IT AND GET A LICENSE!!! http://extendorchard.co.uk/license-oforms */}
