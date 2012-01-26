@@ -26,13 +26,13 @@ namespace oforms.Handlers
             if (context.MessagePrepared)
                 return;
 
-            var form = _contentManager.Get<OFormPart>(context.Recipient.Id);
-            if (form == null)
-                return;
-
             switch (context.Type)
             { 
                 case MessageTypes.SendFormResult:
+                    var form = _contentManager.Get<OFormPart>(context.Recipient.Id);
+                    if (form == null)
+                        return;
+
                     foreach (var email in form.EmailSendTo.Split(new []{';', ' ', ','}, StringSplitOptions.RemoveEmptyEntries))
                     { 
                         var mailAddress = new MailAddress(email);
