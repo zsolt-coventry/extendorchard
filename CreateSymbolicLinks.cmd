@@ -2,6 +2,7 @@
 @echo "%~d0%~p0"
 @echo "%~f1\Modules"
 mklink /j "%~f1\Modules\oforms" "%~d0%~p0oforms"
+mklink /j "%~f1\Modules\ExtendOrchard.MediaPlus" "%~d0%~p0ExtendOrchard.MediaPlus"
 goto :end
 
 :badend
