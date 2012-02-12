@@ -1,4 +1,4 @@
-Name: ExtendOrchard.MediaPlus
+Name: MediaPlus
 AntiForgery: enabled
 Author: The Extend Orchard Team
 Website: http://extendorchard.co.uk
