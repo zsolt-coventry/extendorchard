@@ -143,7 +143,7 @@ namespace oforms.Services
             if (string.IsNullOrEmpty(form.UploadFileType)) return;
             var fileTypes = form.UploadFileType.Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (!fileTypes.Any(ext => postedFile.FileName.EndsWith("." + ext)))
+            if (!fileTypes.Any(ext => postedFile.FileName.EndsWith("." + ext, StringComparison.InvariantCultureIgnoreCase)))
             {
                 throw new OrchardException(T("File type not supported: " + Path.GetExtension(postedFile.FileName)));
             }
