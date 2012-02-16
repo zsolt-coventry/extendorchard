@@ -10,9 +10,10 @@
  
 @helper Captcha(){
     var random = new Random();
-    @Html.Image(Url.Action("GenerateCaptcha", "Home", new { area = "oforms" }), "captcha", new { c = random.Next() });
+    var routeValues = new { area = "oforms", c = random.Next() };
+    @Html.Image(Url.Action("GenerateCaptcha", "Home", routeValues), "captcha", null);
     <br />
-    @Html.TextBox(oforms.OFormGlobals.CaptchaKey, null, new { remote = Url.Action("ValidateCaptcha"), @class = "required" });
+    @Html.TextBox(oforms.OFormGlobals.CaptchaKey, null, new { remote = Url.Action("ValidateCaptcha", "Home", routeValues), @class = "required" });
     }
            
 @using (Html.BeginFormAntiForgeryPost(
