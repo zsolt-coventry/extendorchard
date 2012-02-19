@@ -7,6 +7,7 @@ using Orchard.Localization.Services;
 using Orchard.Security;
 using Orchard.Themes;
 using Orchard.Mvc;
+using Orchard.Mvc.Extensions;
 using Orchard.ContentManagement;
 using Orchard.UI.Notify;
 using oforms.Services;
@@ -53,7 +54,7 @@ namespace oforms.Controllers
                 return new ShapeResult(this, model);
         }
 
-        public ActionResult SubmitForm()
+        public ActionResult SubmitForm(string returnUrl)
         {
             string name = Request.Params[OFormGlobals.NameKey];
             if (!_services.Authorizer.Authorize(StandardPermissions.AccessFrontEnd, T("Not authorized to submit forms")))
@@ -87,8 +88,7 @@ namespace oforms.Controllers
             }
 
             if (string.IsNullOrEmpty(form.RedirectUrl)) {
-                return form.IsPublished ? RedirectToAction("Index", new { name })
-                    : RedirectToAction("Preview", new { form.Id });
+                return this.RedirectLocal(returnUrl, Url.Action("Index", new { name = form.Name }));
             }
 
             return Redirect(form.RedirectUrl);
