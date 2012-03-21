@@ -29,7 +29,11 @@ namespace oforms.Handlers
             switch (context.Type)
             { 
                 case MessageTypes.SendFormResult:
+#if (ORCHARD_1_4)
+                    var form = _contentManager.Get<OFormPart>(context.Recipients.First().Id);
+#else
                     var form = _contentManager.Get<OFormPart>(context.Recipient.Id);
+#endif
                     if (form == null)
                         return;
 
