@@ -147,13 +147,37 @@ namespace oforms {
         public int UpdateFrom8()
         {
             ContentDefinitionManager.AlterPartDefinition(typeof(OFormPart).Name, cfg => cfg.Attachable());
+
+#if (ORCHARD_1_4)
+            ContentDefinitionManager.AlterTypeDefinition("OForm",
+                cfg => cfg
+                    .WithPart(typeof(OFormPart).Name)
+                    .WithPart("TitlePart")
+                    .WithPart("AutoroutePart", builder => builder
+                        .WithSetting("AutorouteSettings.AllowCustomPattern", "true")
+                        .WithSetting("AutorouteSettings.AutomaticAdjustmentOnEdit", "false")
+                        .WithSetting("AutorouteSettings.PatternDefinitions", "[{Name:'Title', Pattern: '{Content.Slug}', Description: 'my-from'}]")
+                        .WithSetting("AutorouteSettings.DefaultPatternIndex", "0"))
+                    .WithPart("MenuPart"));
+#else
             ContentDefinitionManager.AlterTypeDefinition("OForm",
                 cfg => cfg
                     .WithPart(typeof(OFormPart).Name)
                     .WithPart("RoutePart")
                     .WithPart("MenuPart"));
+#endif
 
             return 9;
+        }
+
+        public int UpdateFrom9()
+        {
+            ContentDefinitionManager.AlterTypeDefinition("OFormWidget", cfg => cfg
+                .WithPart(typeof(OFormPart).Name)
+                .WithPart("WidgetPart")
+                .WithPart("CommonPart")
+                .WithSetting("Stereotype", "Widget"));
+            return 10;
         }
     }
 }

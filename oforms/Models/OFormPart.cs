@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.Aspects;
 
 namespace oforms.Models
 {
@@ -178,6 +179,14 @@ namespace oforms.Models
             get
             {
                 return IsPublished || ContentItem.ContentManager.Get(Id, VersionOptions.Published) != null;
+            }
+        }
+
+        public string AliasPath
+        {
+            get
+            {
+                return this.As<IAliasAspect>().Path;
             }
         }
     }

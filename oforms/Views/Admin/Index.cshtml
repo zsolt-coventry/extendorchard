@@ -1,6 +1,5 @@
 @model IList<oforms.Models.OFormPart>
            
-           
 <div class="manage">
 @Html.ActionLink(T("Add a new form").ToString(), "Create", new { }, new { @class = "button primaryAction" })
 @Html.ActionLink(T("Create a sample 'Contact us' form").ToString(), "Create", new { template = "ContactUs" }, new { @class = "button primaryAction" })
@@ -29,8 +28,7 @@
         { 
         <tr>
             <td>@entry.Name</td>
-            <!--<td>~<strong>@Url.Action("Index", "Home", new { area = "oforms", name = entry.Name })</strong></td>-->
-             <td><strong>~/oforms/@entry.Name</strong></td>
+             <td><strong>~/@entry.AliasPath</strong></td>
             <td>
                 @Html.ActionLink(T("Edit").ToString(), "Edit", new { entry.Id }, new { @class = "button primaryAction" })
              </td>
@@ -40,11 +38,11 @@
              <td>
                 @if (entry.IsPublished)
                 {
-                    @Html.ActionLink(T("Unpublish").ToString(), "Unpublish", new { entry.Id }, new { @class = "button primaryAction", itemprop = "RemoveUrl UnsafeUrl" })
+                    @Html.ActionLink(T("Unpublish").ToString(), "Unpublish", new { entry.Id }, new { @class = "button primaryAction", itemprop = "UnsafeUrl" })
                 }
                 else
                 {
-                    @Html.ActionLink(T("Publish").ToString(), "Publish", new { entry.Id }, new { @class = "button primaryAction", itemprop = "RemoveUrl UnsafeUrl" })
+                    @Html.ActionLink(T("Publish").ToString(), "Publish", new { entry.Id }, new { @class = "button primaryAction", itemprop = "UnsafeUrl" })
                 }
             </td>
             <td>
