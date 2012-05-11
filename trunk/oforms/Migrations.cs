@@ -148,7 +148,6 @@ namespace oforms {
         {
             ContentDefinitionManager.AlterPartDefinition(typeof(OFormPart).Name, cfg => cfg.Attachable());
 
-#if (ORCHARD_1_4)
             ContentDefinitionManager.AlterTypeDefinition("OForm",
                 cfg => cfg
                     .WithPart(typeof(OFormPart).Name)
@@ -159,13 +158,6 @@ namespace oforms {
                         .WithSetting("AutorouteSettings.PatternDefinitions", "[{Name:'Title', Pattern: '{Content.Slug}', Description: 'my-from'}]")
                         .WithSetting("AutorouteSettings.DefaultPatternIndex", "0"))
                     .WithPart("MenuPart"));
-#else
-            ContentDefinitionManager.AlterTypeDefinition("OForm",
-                cfg => cfg
-                    .WithPart(typeof(OFormPart).Name)
-                    .WithPart("RoutePart")
-                    .WithPart("MenuPart"));
-#endif
 
             return 9;
         }
