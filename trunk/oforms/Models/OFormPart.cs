@@ -186,13 +186,8 @@ namespace oforms.Models
         {
             get
             {
-#if (ORCHARD_1_4)
                 var aliasAspect = this.As<IAliasAspect>();
                 return aliasAspect == null ? "oforms/" + this.Name : aliasAspect.Path;
-#else
-                var routePart = this.As<Orchard.Core.Routable.Models.RoutePart>();
-                return routePart == null ? "oforms/" + this.Name : routePart.Slug;
-#endif
             }
         }
     }
