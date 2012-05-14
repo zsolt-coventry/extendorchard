@@ -17,10 +17,11 @@ using Orchard.Data;
 using System.Text;
 using oforms.ViewModels;
 using Orchard.Core.Contents.Controllers;
+using Orchard.UI.Admin;
 
 namespace oforms.Controllers
 {
-    [ValidateInput(false)]
+    [Admin, ValidateInput(false)]
     public class AdminController : Controller, IUpdateModel
     {
         private readonly IOrchardServices _services;
