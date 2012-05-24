@@ -20,6 +20,14 @@
             <span>@T("Please select GET or POST method for your form")</span>
             <br/><br/>
 
+            <label class="sub" for="Target">@T("Target")</label><br />
+			@Html.DropDownList("Target", new[] { 
+                                    new SelectListItem { Text = "", Value = "", Selected = true },
+                                    new SelectListItem { Text = "_blank", Value = "_blank" }}) 
+            <span class="helps"></span>
+            <span>@T("Please select target for your form")</span>
+            <br/><br/>
+
 		    <label class="sub" for="InnerHtml">@T("Inner html (do not include opened and closed FORM tag). To use captcha include {captcha}")</label>
             <span class="helps"></span>
             <span>@T("Enter any HTML code including input fields. Do not include opened and closed FORM tag")</span>

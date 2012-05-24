@@ -11,12 +11,14 @@ namespace oforms
 
         public void GetNavigation(NavigationBuilder builder)
         {
-            builder.AddImageSet("users")
-                .Add(T("OForms"), "1",
-                    menu => menu.Action("Index", "Admin", new { area = "oforms" })
-                        .Permission(StandardPermissions.SiteOwner)
-                        .Add(T("OForms"), "1.0", item => item.Action("Index", "Admin", new { area = "oforms" })
-                            .LocalNav().Permission(StandardPermissions.SiteOwner)));
+            builder.AddImageSet("oforms")
+                .Add(T("OForms"), "1.5", BuildMenu);
+        }
+
+        private void BuildMenu(NavigationItemBuilder menu)
+        {
+            menu.Action("Index", "Admin", new { area = "oforms" }).Permission(StandardPermissions.SiteOwner);
+            menu.Add(T("New form"), "1.0", item => item.Action("Create", "Admin", new { area = "oforms" }).Permission(StandardPermissions.SiteOwner));
         }
     }
 }

@@ -16,11 +16,22 @@
     <br />
     @Html.TextBox(oforms.OFormGlobals.CaptchaKey, null, new { remote = Url.Action("ValidateCaptcha", "Home", routeValues), @class = "required" });
     }
-           
+
+@{
+    var formAttributes = new Dictionary<string, object>();
+    if (form.CanUploadFiles) {
+        formAttributes.Add("enctype", "multipart/form-data");
+    }
+
+    if (!string.IsNullOrEmpty(form.Target)) {
+        formAttributes.Add("target", form.Target);
+    }
+}           
+
 @using (Html.BeginFormAntiForgeryPost(
                                         String.IsNullOrEmpty(form.Action) ? Url.Action("SubmitForm", "Home", new { area = "oforms" }) : form.Action,
                                         form.Method == "POST" ? FormMethod.Post : FormMethod.Get,
-                                        new { @id = form.Name, enctype = form.CanUploadFiles ? "multipart/form-data" : null }
+                                        formAttributes
                                     )
        )
 {

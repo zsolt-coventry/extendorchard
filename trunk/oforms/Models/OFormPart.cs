@@ -13,6 +13,12 @@ namespace oforms.Models
             set { Record.Method = value; }
         }
 
+        public string Target
+        {
+            get { return Record.Target; }
+            set { Record.Target = value; }
+        }
+
         [Required]
         [RegularExpression("[a-zA-Z0-9\\-]{1,40}", ErrorMessage = "The field Name can be alphanumeric, no spaces, up to 40 characters")]
         public string Name
