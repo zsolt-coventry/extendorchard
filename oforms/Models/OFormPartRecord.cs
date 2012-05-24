@@ -18,6 +18,8 @@ namespace oforms.Models
 
         public virtual string Method { get; set; }
 
+        public virtual string Target { get; set; }
+
         public virtual string Action { get; set; }
 
         public virtual string SuccessMessage { get; set; }

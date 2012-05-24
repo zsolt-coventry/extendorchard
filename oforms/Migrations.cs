@@ -171,5 +171,17 @@ namespace oforms {
                 .WithSetting("Stereotype", "Widget"));
             return 10;
         }
+
+        public int UpdateFrom10()
+        {
+            SchemaBuilder.AlterTable("OFormPartRecord",
+                table =>
+                {
+                    table.AddColumn<string>("Target");
+                }
+            );
+
+            return 11;
+        }
     }
 }
