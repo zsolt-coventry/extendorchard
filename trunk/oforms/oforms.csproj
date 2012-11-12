@@ -21,6 +21,10 @@
     </UpgradeBackupLocation>
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -134,8 +138,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OFormTemplateHelper.cs" />
     <Compile Include="Controllers\ResultsAdminController.cs" />
+    <Compile Include="Drivers\OFormSettingsPartDriver.cs" />
     <Compile Include="Drivers\OFormDriver.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Handlers\OFormSettingsPartHandler.cs" />
     <Compile Include="Handlers\OFormHandler.cs" />
     <Compile Include="Handlers\OFormMessagesAlteration.cs" />
     <Compile Include="HtmlHelpers\Validator.cs" />
@@ -144,6 +150,8 @@
     <Compile Include="Models\OFormPart.cs" />
     <Compile Include="Models\OFormPartRecord.cs" />
     <Compile Include="Models\OFormResultRecord.cs" />
+    <Compile Include="Models\OFormSettingsPart.cs" />
+    <Compile Include="Models\OFormSettingsPartRecord.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Services\ISerialService.cs" />
@@ -172,6 +180,7 @@
     <Content Include="Views\ResultsAdmin\ShowResultDetails.cshtml" />
     <Content Include="Views\Content.SaveButton-OForm.cshtml" />
     <Content Include="Views\ConfirmScript.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\OFormSettings.cshtml" />
     <None Include="Views\sn.cshtml" />
   </ItemGroup>
   <ItemGroup />

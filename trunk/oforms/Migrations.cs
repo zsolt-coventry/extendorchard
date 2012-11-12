@@ -183,5 +183,15 @@ namespace oforms {
 
             return 11;
         }
+
+        public int UpdateFrom11()
+        {
+            SchemaBuilder.CreateTable("OFormSettingsPartRecord",
+                table => table.ContentPartRecord()
+                    .Column<string>("SerialKey")
+                );
+
+            return 12;
+        }
     }
 }

@@ -79,5 +79,11 @@ namespace oforms.Services
             var oformsDataDir = HttpContext.Current.Server.MapPath("~/App_Data/oforms/");
             return Path.Combine(oformsDataDir, "sn.dat");
         }
+
+
+        public Models.OFormSettingsPart GetSettings()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
