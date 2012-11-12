@@ -1,4 +1,5 @@
-﻿using Orchard.Localization;
+﻿using oforms.Services;
+using Orchard.Localization;
 using Orchard.Security;
 using Orchard.UI.Navigation;
 
@@ -18,7 +19,6 @@ namespace oforms
         private void BuildMenu(NavigationItemBuilder menu)
         {
             menu.Action("Index", "Admin", new { area = "oforms" }).Permission(StandardPermissions.SiteOwner);
-            menu.Add(T("New form"), "1.0", item => item.Action("Create", "Admin", new { area = "oforms" }).Permission(StandardPermissions.SiteOwner));
         }
     }
 }

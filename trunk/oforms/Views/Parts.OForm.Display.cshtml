@@ -49,7 +49,7 @@
 {@Html.Raw("<div class='oforms'><a href='http://extendorchard.co.uk' target=_blank>Extend Orchard</a></div>")}
 
 @{
-    String validatorCollectorString = new Validator()
+    String validatorCollectorString = new oforms.HtmlHelpers.Validator()
         .ValidationRuleCollector(form.ValRequiredFields, "required")
         .ValidationRuleCollector(form.ValEmail, "email")
         .ValidationRuleCollector(form.ValNumbersOnly, "number")
