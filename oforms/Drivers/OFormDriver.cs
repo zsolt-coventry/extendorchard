@@ -25,7 +25,7 @@ namespace oforms.Drivers
                 () => shapeHelper.Parts_OForm_Display(
                     ContentPart: part, 
                     ContentItem: part.ContentItem, 
-                    ValidSn: this._serialService.ValidateSerial(),
+                    ValidSn: this._serialService.IsSerialValid(),
                     Culture: GetCurrentSiteCulture()));
         }
 

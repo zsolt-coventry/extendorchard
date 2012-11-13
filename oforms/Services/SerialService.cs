@@ -1,41 +1,53 @@
 ﻿using System;
 using System.IO;
 using System.Web;
+using Orchard;
 using Orchard.Logging;
+using Orchard.ContentManagement;
+using oforms.Models;
 
 namespace oforms.Services
 {
     public class SerialService : ISerialService
     {
-        public SerialService() {
+        private readonly IOrchardServices orchardServices;
+
+        static readonly string serialKeyFromFile = ReadSerialFromFile();
+
+        public SerialService(IOrchardServices orchardServices) {
+            this.orchardServices = orchardServices;
             Logger = NullLogger.Instance;
         }
 
         public ILogger Logger { get; set; }
 
-        public void SaveSerialToFile(string value) {
-            var serialFilePath = GetSerialFilePath();
-            var oformsDataDir = Path.GetDirectoryName(serialFilePath);
-            if (!Directory.Exists(oformsDataDir))
+        public bool IsSerialValid()
+        {
+            string serialKey = serialKeyFromFile;
+            var oformSettings = orchardServices.WorkContext.CurrentSite.As<OFormSettingsPart>();
+            if (oformSettings != null && string.IsNullOrEmpty(oformSettings.SerialKey))
             {
-                Directory.CreateDirectory(oformsDataDir);
+                serialKey = oformSettings.SerialKey ?? string.Empty;
             }
-
-            using (var sw = new StreamWriter(serialFilePath))
+             
+            if (IsNumeric(DecodeSerial(serialKey)))
             {
-                sw.WriteLine(value);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
-        
-        public string ReadSerialFromFile() {
+
+        private static string ReadSerialFromFile() {
             string text;
             try {
                 text = File.ReadAllText(GetSerialFilePath());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-            	Logger.Information(ex, "Can not read file.");
-                return "";
+                return string.Empty;
             }
             return text.Trim();
         }
@@ -63,27 +75,10 @@ namespace oforms.Services
             return double.TryParse(s, out Result);  // TryParse routines were added in Framework version 2.0.
         } 
 
-
-        public bool ValidateSerial() {
-            if (IsNumeric(DecodeSerial(this.ReadSerialFromFile())))
-            {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        private string GetSerialFilePath()
+        private static string GetSerialFilePath()
         {
             var oformsDataDir = HttpContext.Current.Server.MapPath("~/App_Data/oforms/");
             return Path.Combine(oformsDataDir, "sn.dat");
-        }
-
-
-        public Models.OFormSettingsPart GetSettings()
-        {
-            throw new NotImplementedException();
         }
     }
 }
