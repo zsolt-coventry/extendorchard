@@ -57,36 +57,8 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to list users")))
                 return new HttpUnauthorizedResult();
             var forms = _services.ContentManager.Query<OFormPart, OFormPartRecord>(VersionOptions.Latest).List();
-            ViewBag.ValidSn = _serial.ValidateSerial();
+            ViewBag.ValidSn = _serial.IsSerialValid();
             return View(forms.ToList());
-        }
-
-        public ActionResult License()
-        {
-            if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to list users")))
-                return new HttpUnauthorizedResult();
-            var sn =  _serial.ReadSerialFromFile();
-            ViewData["sn"] = sn;
-            return View();
-        }
-
-        [HttpPost, ActionName("License")]
-        public ActionResult LicensePOST(string sn)
-        {
-           if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage users")))
-                return new HttpUnauthorizedResult();
-
-            _serial.SaveSerialToFile(sn);
-            
-            if (_serial.ValidateSerial())
-            {
-                _services.Notifier.Information(T("License updated successfully, enjoy using oForms"));
-            } else {
-                _services.Notifier.Information(T("Incorrect License, please try again"));    
-            }
-            
-           return RedirectToAction("License");
-            
         }
 
         public ActionResult Create(string template)

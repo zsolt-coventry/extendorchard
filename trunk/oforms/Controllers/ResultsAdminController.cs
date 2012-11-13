@@ -166,7 +166,7 @@ namespace oforms.Controllers
 
         private void CheckValidSerial()
         {
-            ViewData["validSn"] = _serialService.ValidateSerial();
+            ViewData["validSn"] = _serialService.IsSerialValid();
         }
 
         private static MemoryStream GetCsvStream(StringBuilder csvBuilder, List<string> csvColumns)
