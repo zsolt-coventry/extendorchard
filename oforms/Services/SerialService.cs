@@ -25,9 +25,9 @@ namespace oforms.Services
         {
             string serialKey = serialKeyFromFile;
             var oformSettings = orchardServices.WorkContext.CurrentSite.As<OFormSettingsPart>();
-            if (oformSettings != null && string.IsNullOrEmpty(oformSettings.SerialKey))
+            if (oformSettings != null && !string.IsNullOrEmpty(oformSettings.SerialKey))
             {
-                serialKey = oformSettings.SerialKey ?? string.Empty;
+                serialKey = oformSettings.SerialKey.Trim();
             }
              
             if (IsNumeric(DecodeSerial(serialKey)))
