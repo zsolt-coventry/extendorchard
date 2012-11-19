@@ -19,6 +19,7 @@
 
 @{
     var formAttributes = new Dictionary<string, object>();
+    formAttributes.Add("id", form.Name);
     if (form.CanUploadFiles) {
         formAttributes.Add("enctype", "multipart/form-data");
     }
