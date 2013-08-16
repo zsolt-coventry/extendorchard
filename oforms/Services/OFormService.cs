@@ -99,7 +99,6 @@ namespace oforms.Services
 
             this._resultRepo.Create(resultRecord);
             form.Record.AddFormResult(resultRecord);
-            _contentManager.Flush();
 
             return resultRecord;
         }

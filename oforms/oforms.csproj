@@ -122,6 +122,7 @@
     <Content Include="Styles\images\b_tipp.gif" />
     <Content Include="Styles\images\index.html" />
     <Content Include="Styles\jquery.helptooltip.css" />
+    <Content Include="Styles\menu.oforms-admin.css" />
     <Content Include="Styles\oform.css" />
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
