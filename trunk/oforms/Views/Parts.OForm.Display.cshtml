@@ -43,12 +43,6 @@
         @Html.Raw(form.InnerHtml.Replace("{captcha}", Captcha().ToString()))
     }
 }
-
-@{ /* DO NOT REMOVE THE LINES BELOW, IF YOU LIKE THIS MODULE, SUPPORT IT AND GET A LICENSE!!! http://extendorchard.co.uk/license-oforms */}
-@{ /* if you really can't pay you can use class oforms to hide the below div, the the link should stay, it is illegal to remove it */}
-@if (!Model.ValidSn)
-{@Html.Raw("<div class='oforms'><a href='http://extendorchard.co.uk' target=_blank>Extend Orchard</a></div>")}
-
 @{
     String validatorCollectorString = new oforms.HtmlHelpers.Validator()
         .ValidationRuleCollector(form.ValRequiredFields, "required")

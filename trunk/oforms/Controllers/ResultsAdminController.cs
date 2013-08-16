@@ -25,17 +25,14 @@ namespace oforms.Controllers
         private readonly IRepository<OFormFileRecord> _fileRepo;
         private readonly IRepository<OFormResultRecord> _resultsRepo;
         private readonly IOrchardServices _services;
-        private readonly ISerialService _serialService;
 
         public ResultsAdminController(
             IOrchardServices services,
-            ISerialService serialService,
             IShapeFactory shapeFactory,
             IRepository<OFormResultRecord> resultsRepo,
             IRepository<OFormFileRecord> fileRepo)
         {
             this._services = services;
-            this._serialService = serialService;
             this._resultsRepo = resultsRepo;
             this._fileRepo = fileRepo;
             this.Shape = shapeFactory;
@@ -56,7 +53,6 @@ namespace oforms.Controllers
             if (form == null)
                 return HttpNotFound();
 
-            CheckValidSerial();
             var pager = new Pager(_services.WorkContext.CurrentSite, pagerParameters);
 
             var formResults = _resultsRepo.Table.Where(x => x.OFormPartRecord == form.Record);
@@ -86,8 +82,6 @@ namespace oforms.Controllers
                 return HttpNotFound();
             }
 
-            this.CheckValidSerial();
-
             return View(result);
         }
 
@@ -102,8 +96,6 @@ namespace oforms.Controllers
             {
                 return HttpNotFound();
             }
-
-            this.CheckValidSerial();
 
             _resultsRepo.Delete(result);
 
@@ -162,11 +154,6 @@ namespace oforms.Controllers
             }
 
             return File(file.Bytes, file.ContentType ?? "application/octet-stream", file.OriginalName);
-        }
-
-        private void CheckValidSerial()
-        {
-            ViewData["validSn"] = _serialService.IsSerialValid();
         }
 
         private static MemoryStream GetCsvStream(StringBuilder csvBuilder, List<string> csvColumns)

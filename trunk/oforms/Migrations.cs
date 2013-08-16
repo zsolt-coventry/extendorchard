@@ -193,5 +193,12 @@ namespace oforms {
 
             return 12;
         }
+
+        public int UpdateFrom12()
+        {
+            SchemaBuilder.DropTable("OFormSettingsPartRecord");
+
+            return 13;
+        }
     }
 }

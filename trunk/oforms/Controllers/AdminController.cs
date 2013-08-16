@@ -27,7 +27,6 @@ namespace oforms.Controllers
         private readonly IOrchardServices _services;
         private readonly ISiteService _siteService;
         private readonly IOFormService _formService;
-        private readonly ISerialService _serial;
         private readonly IRepository<OFormResultRecord> _resultsRepo;
         private readonly IRepository<OFormFileRecord> _fileRepo;
 
@@ -35,16 +34,14 @@ namespace oforms.Controllers
             IShapeFactory shapeFactory, 
             ISiteService siteService,
             IOFormService formService, 
-            ISerialService serial,
             IRepository<OFormResultRecord> resultsRepo,
             IRepository<OFormFileRecord> fileRepo)
         {
             this._services = services;
-            _siteService = siteService;
+            this._siteService = siteService;
             this._formService = formService;
-            this._serial = serial;
             this.Shape = shapeFactory;
-            _resultsRepo = resultsRepo;
+            this._resultsRepo = resultsRepo;
             this._fileRepo = fileRepo;
             T = NullLocalizer.Instance;
         }
@@ -57,7 +54,6 @@ namespace oforms.Controllers
             if (!_services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to list users")))
                 return new HttpUnauthorizedResult();
             var forms = _services.ContentManager.Query<OFormPart, OFormPartRecord>(VersionOptions.Latest).List();
-            ViewBag.ValidSn = _serial.IsSerialValid();
             return View(forms.ToList());
         }
 

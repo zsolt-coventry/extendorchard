@@ -9,13 +9,10 @@ namespace oforms.Drivers
 {
     public class OFormDriver : ContentPartDriver<OFormPart>
     {
-        private readonly ISerialService _serialService;
         private readonly ICultureManager _cultureManager;
 
-        public OFormDriver(ISerialService serialService,
-            ICultureManager cultureManager)
+        public OFormDriver(ICultureManager cultureManager)
         {
-            this._serialService = serialService;
             this._cultureManager = cultureManager;
         }
 
@@ -25,7 +22,6 @@ namespace oforms.Drivers
                 () => shapeHelper.Parts_OForm_Display(
                     ContentPart: part, 
                     ContentItem: part.ContentItem, 
-                    ValidSn: this._serialService.IsSerialValid(),
                     Culture: GetCurrentSiteCulture()));
         }
 
