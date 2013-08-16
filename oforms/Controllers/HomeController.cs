@@ -23,19 +23,16 @@ namespace oforms.Controllers
     public class HomeController : Controller
     {
         private readonly IOrchardServices _services;
-        private readonly ISerialService _serial;
         private readonly IContentManager _contentManager;
 
         private readonly IOFormService _formService;
 
         public HomeController(IOFormService formService, 
                               IOrchardServices services,
-                              ISerialService serial,
                               IContentManager contentManager)
         {
             this._formService = formService;
             _services = services;
-            _serial = serial;
             _contentManager = contentManager;
             T = NullLocalizer.Instance;
         }

@@ -146,10 +146,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OFormTemplateHelper.cs" />
     <Compile Include="Controllers\ResultsAdminController.cs" />
-    <Compile Include="Drivers\OFormSettingsPartDriver.cs" />
     <Compile Include="Drivers\OFormDriver.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Handlers\OFormSettingsPartHandler.cs" />
     <Compile Include="Handlers\OFormHandler.cs" />
     <Compile Include="Handlers\OFormMessagesAlteration.cs" />
     <Compile Include="HtmlHelpers\Validator.cs" />
@@ -159,16 +157,12 @@
     <Compile Include="Models\OFormPart.cs" />
     <Compile Include="Models\OFormPartRecord.cs" />
     <Compile Include="Models\OFormResultRecord.cs" />
-    <Compile Include="Models\OFormSettingsPart.cs" />
-    <Compile Include="Models\OFormSettingsPartRecord.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
-    <Compile Include="Services\ISerialService.cs" />
     <Compile Include="Services\OFormResultReader.cs" />
     <Compile Include="Services\OFormService.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Services\IOFormService.cs" />
-    <Compile Include="Services\SerialService.cs" />
     <Compile Include="ViewModels\FormResultViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,8 +182,6 @@
     <Content Include="Views\ResultsAdmin\ShowResultDetails.cshtml" />
     <Content Include="Views\Content.SaveButton-OForm.cshtml" />
     <Content Include="Views\ConfirmScript.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts\OFormSettings.cshtml" />
-    <None Include="Views\sn.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
