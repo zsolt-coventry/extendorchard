@@ -103,6 +103,7 @@ namespace oforms.Controllers
             return new ShapeResult(this, model);
         }
 
+        [AllowAnonymous, OutputCache(Duration = 0, NoStore = true)]
         public ActionResult GenerateCaptcha()
         {
             var bitmap = GenerateImage(150, 40);
@@ -114,6 +115,7 @@ namespace oforms.Controllers
             return new FileStreamResult(ms, "image/bmp");
         }
 
+        [AllowAnonymous, OutputCache(Duration = 0, NoStore = true)]
         public JsonResult ValidateCaptcha()
         {
             return Json(IsCaptchaValid(), JsonRequestBehavior.AllowGet);
